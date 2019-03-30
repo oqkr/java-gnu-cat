@@ -131,14 +131,14 @@ public class Cat {
     try (var stream = getClass().getResourceAsStream("/project.properties")) {
       properties.load(stream);
     } catch (IOException e) {
-      throw new ImplementationError("can't load properties file: " + e.getMessage());
+      throw new InternalException("can't load properties file: " + e.getMessage());
     }
     return properties;
   }
 
   private String getVersion() {
     final var version = getProjectProperties().getProperty("version");
-    if (version == null) throw new ImplementationError("no version info in properties file");
+    if (version == null) throw new InternalException("no version info in properties file");
     return version;
   }
 
@@ -165,8 +165,8 @@ public class Cat {
     }
   }
 
-  private static class ImplementationError extends Error {
-    ImplementationError(final String message) {
+  private static class InternalException extends RuntimeException {
+    InternalException(final String message) {
       super(message);
     }
   }
