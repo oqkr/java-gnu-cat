@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,13 +38,11 @@ public class Cat {
   }
 
   private Stream<String> createLineStreamFromFiles(final String[] paths) throws IOException {
-    var lineStream = Stream.<String>empty();
-    for (final var path : paths) {
-      final var inputStream = "-".equals(path) ? System.in : Files.newInputStream(Path.of(path));
-      lineStream =
-          Stream.concat(lineStream, new BufferedReader(new InputStreamReader(inputStream)).lines());
-    }
-    return lineStream;
+    return Arrays.stream(paths)
+        .map(
+            ThrowingFunction.mayThrow(
+                path -> "-".equals(path) ? System.in : Files.newInputStream(Path.of(path))))
+        .flatMap(inputStream -> new BufferedReader(new InputStreamReader(inputStream)).lines());
   }
 
   private Function<String, String> createLineTransformFunction(final CommandLine commandLine) {
@@ -162,6 +161,20 @@ public class Cat {
       run(args);
     } catch (Exception e) {
       displayErrorAndQuit(e);
+    }
+  }
+
+  private interface ThrowingFunction<T, R> {
+    R apply(T t) throws Exception;
+
+    static <T, R> Function<T, R> mayThrow(ThrowingFunction<T, R> f) {
+      return t -> {
+        try {
+          return f.apply(t);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+      };
     }
   }
 
