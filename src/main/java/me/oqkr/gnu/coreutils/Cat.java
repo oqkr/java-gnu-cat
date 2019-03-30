@@ -32,7 +32,7 @@ public class Cat {
 
   private final Options options = createOptions();
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     new Cat().runAndHandleErrors(args);
   }
 
@@ -69,7 +69,7 @@ public class Cat {
 
   private Predicate<String> createConsecutiveBlankLineFilter(final CommandLine commandLine) {
     final Predicate<String> doNothing = s -> true;
-    final Predicate<String> squeezeBlank = Predicate.not(new LineTransformer()::isSqueezableBlank);
+    final var squeezeBlank = Predicate.not(new LineTransformer()::isSqueezableBlank);
     return commandLine.hasOption("squeeze-blank") ? squeezeBlank : doNothing;
   }
 
