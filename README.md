@@ -23,3 +23,9 @@ But these are the known issues so far:
 * Passing the same option multiple times (e.g., `cat -n -n -n`) attempts to
   apply the same option multiple times on the already transformed input, which
   is almost certainly never what you want.
+* Not quite a bug but a difference: In GNU cat, if a file doesn't exist or
+  can't be read, execution continues on to the next file after printing an
+  error. This version of cat, however, tries to read all the files up front
+  and crashes without doing anything at all if any one of the files can't be
+  read.
+ 
