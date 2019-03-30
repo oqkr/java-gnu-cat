@@ -37,7 +37,7 @@ public class Cat {
     new Cat().runAndHandleErrors(args);
   }
 
-  private Stream<String> createLineStreamFromFiles(final String[] paths) throws IOException {
+  private Stream<String> createLineStreamFromFiles(final String[] paths) {
     return Arrays.stream(paths)
         .map(
             ThrowingFunction.mayThrow(
