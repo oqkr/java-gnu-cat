@@ -88,35 +88,19 @@ public class Cat {
         .addOption(Option.builder().longOpt("version").desc("show version info and exit").build());
   }
 
-  private void displayError(final Exception e) {
-    System.err.println(NAME + ": " + e);
-  }
-
   private void displayErrorAndQuit(final Exception e) {
-    displayError(e);
-    displayShortUsage();
+    System.err.println(NAME + ": " + e);
+    System.err.println(NAME + ": " + SHORT_USAGE);
     System.exit(1);
   }
 
-  private void displayHelp() {
-    new HelpFormatter().printHelp(SHORT_USAGE, HELP_HEADER, options, HELP_FOOTER, false);
-  }
-
   private void displayHelpAndQuit() {
-    displayHelp();
+    new HelpFormatter().printHelp(SHORT_USAGE, HELP_HEADER, options, HELP_FOOTER, false);
     System.exit(0);
   }
 
-  private void displayShortUsage() {
-    System.err.println(NAME + ": " + SHORT_USAGE);
-  }
-
-  private void displayVersion() {
-    System.out.println(NAME + " " + getVersion());
-  }
-
   private void displayVersionAndQuit() {
-    displayVersion();
+    System.out.println(NAME + " " + getVersion());
     System.exit(0);
   }
 
