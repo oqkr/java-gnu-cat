@@ -165,13 +165,13 @@ public class Cat {
     }
   }
 
-  public class ImplementationError extends Error {
+  private static class ImplementationError extends Error {
     ImplementationError(final String message) {
       super(message);
     }
   }
 
-  private class LineTransformer {
+  private static class LineTransformer {
     private int currentLineNumber;
     private boolean previousLineWasEmpty;
 
